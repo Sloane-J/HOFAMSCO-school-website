@@ -1,0 +1,313 @@
+---
+// Layout.astro
+import '../styles/global.css'
+---
+<html>
+<head>
+  <!-- your head content -->
+</head>
+<body>
+  <slot />
+
+  <script>
+    import Lenis from '@studio-freight/lenis'
+
+    // Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,          // Scroll duration
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
+      direction: 'vertical',   // Scroll direction
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,     // Disable on touch devices for native feel
+      touchMultiplier: 2,
+      infinite: false,
+    })
+
+    // Animation frame loop
+    function raf(time) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+    requestAnimationFrame(raf)
+  </script>
+</body>
+</html>
+
+
+---
+import { ViewTransitions } from 'astro:transitions';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = "HOFAMSCO School - Quality Education from Kindergarten to Junior High School in Ghana. Nurturing young minds with excellence in academics, character development, and holistic growth.",
+  image = "/images/hofamsco/logo/hofamsco-og-image.jpg",
+  canonical,
+  noindex = false,
+  type = 'website'
+} = Astro.props;
+
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.url);
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="HOFAMSCO School, Ghana education, kindergarten, primary school, JHS, quality education, Accra schools, private school Ghana" />
+    <meta name="author" content="HOFAMSCO School" />
+
+    <!-- Robots -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="HOFAMSCO School" />
+    <meta property="og:locale" content="en_GH" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+
+    <!-- Additional Meta Tags for Schools -->
+    <meta name="geo.region" content="GH" />
+    <meta name="geo.placename" content="Accra, Ghana" />
+    <meta name="theme-color" content="#1e40af" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts - Optimized for Ghana's internet -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data for School -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "HOFAMSCO School",
+        "description": "Quality Education from Kindergarten to Junior High School in Ghana",
+        "url": "https://hofamsco.edu.gh",
+        "logo": "https://hofamsco.edu.gh/images/hofamsco/logo/hofamsco-logo.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "GH",
+          "addressLocality": "Accra"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+233-XXX-XXX-XXX",
+          "contactType": "customer service"
+        },
+        "sameAs": [
+          "https://facebook.com/hofamscoschool",
+          "https://instagram.com/hofamscoschool"
+        ]
+      }
+    </script>
+
+    <!-- View Transitions -->
+    <ViewTransitions />
+
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+      /* Critical styles for initial page load */
+      html {
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #ffffff;
+        color: #1f2937;
+        line-height: 1.6;
+      }
+
+      /* Loading state */
+      .loading {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .loaded {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Smooth scrolling fallback */
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+      }
+
+      /* Focus styles for accessibility */
+      :focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased bg-white text-gray-900 overflow-x-hidden">
+    <!-- Skip to main content for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Header -->
+    <header id="header" class="relative z-40">
+      <slot name="header" />
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="relative z-10 loading">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="relative z-30">
+      <slot name="footer" />
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Initialize smooth scrolling with Lenis
+      import Lenis from '@studio-freight/lenis';
+
+      // Initialize Lenis smooth scrolling
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+      });
+
+      // Animation frame for smooth scrolling
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Handle page load animations
+      document.addEventListener('DOMContentLoaded', () => {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+          mainContent.classList.remove('loading');
+          mainContent.classList.add('loaded');
+        }
+      });
+
+      // Handle navigation clicks for smooth scrolling
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('a[href^="#"]');
+        if (target) {
+          e.preventDefault();
+          const id = target.getAttribute('href').substring(1);
+          const element = document.getElementById(id);
+          if (element) {
+            lenis.scrollTo(element, {
+              offset: -80, // Account for fixed header
+              duration: 1.5,
+            });
+          }
+        }
+      });
+
+      // Disable smooth scrolling during page transitions
+      document.addEventListener('astro:before-preparation', () => {
+        lenis.destroy();
+      });
+
+      // Re-enable smooth scrolling after page transitions
+      document.addEventListener('astro:after-swap', () => {
+        const newLenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          direction: 'vertical',
+          gestureDirection: 'vertical',
+          smooth: true,
+          mouseMultiplier: 1,
+          smoothTouch: false,
+          touchMultiplier: 2,
+          infinite: false,
+        });
+
+        function newRaf(time) {
+          newLenis.raf(time);
+          requestAnimationFrame(newRaf);
+        }
+        requestAnimationFrame(newRaf);
+      });
+    </script>
+
+    <!-- Analytics (Add your tracking code here) -->
+    <!-- Google Analytics or other analytics scripts -->
+
+    <!-- WhatsApp Chat Widget (Ghana context) -->
+    <script>
+      // WhatsApp floating button functionality
+      window.addEventListener('load', () => {
+        const whatsappButton = document.createElement('a');
+        whatsappButton.href = 'https://wa.me/233XXXXXXXXX?text=Hello%20HOFAMSCO%20School,%20I%20would%20like%20to%20inquire%20about...';
+        whatsappButton.target = '_blank';
+        whatsappButton.rel = 'noopener noreferrer';
+        whatsappButton.className = 'fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center';
+        whatsappButton.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+          </svg>
+        `;
+        document.body.appendChild(whatsappButton);
+      });
+    </script>
+  </body>
+</html>
