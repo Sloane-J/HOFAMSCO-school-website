@@ -1,16 +1,496 @@
 ---
+// src/pages/index.astro
+import Layout from '../components/layout/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Section from '../components/ui/Section.astro';
+import ContactInfo from '../components/ui/ContactInfo.astro';
+import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
+import PrincipalIntro from '../components/react/PrincipalIntro.jsx';
+import NewsCarousel from '../components/react/NewsCarousel.jsx';
+import SmoothScrolling from '../components/react/SmoothScrolling.jsx';
 
+// School Data
+const schoolStats = {
+  students: "450+",
+  staff: "25+",
+  yearsEstablished: "15+",
+  successRate: "98%"
+};
+
+const featuredFacilities = [
+  {
+    name: "Modern Computer Laboratory",
+    description: "State-of-the-art ICT center with high-speed internet and 30 workstations",
+    image: "/images/hofamsco/facilities/computer-lab.jpg",
+    features: ["30 Computers", "High-speed Internet", "Projector", "Air Conditioning"]
+  },
+  {
+    name: "Well-Equipped Library",
+    description: "Extensive collection of books and digital resources for all age groups",
+    image: "/images/hofamsco/facilities/library.jpg",
+    features: ["1000+ Books", "Study Areas", "Digital Resources", "Quiet Environment"]
+  },
+  {
+    name: "Science Laboratory",
+    description: "Fully equipped lab for hands-on science experiments and learning",
+    image: "/images/hofamsco/facilities/science-lab.jpg",
+    features: ["Lab Equipment", "Safety Standards", "Interactive Learning", "Practical Sessions"]
+  },
+  {
+    name: "Sports & Recreation",
+    description: "Spacious playground and sports facilities for physical development",
+    image: "/images/hofamsco/facilities/playground.jpg",
+    features: ["Football Field", "Basketball Court", "Playground", "Sports Equipment"]
+  }
+];
+
+const recentNews = [
+  {
+    title: "HOFAMSCO Wins Regional Science Fair",
+    excerpt: "Our students excel in the Eastern Region Science Competition with innovative projects",
+    date: "2024-07-15",
+    image: "/images/hofamsco/activities/science-fair.jpg",
+    category: "Achievement"
+  },
+  {
+    title: "New Computer Lab Opening",
+    excerpt: "State-of-the-art ICT facility now available for all students from KG to JHS",
+    date: "2024-07-10",
+    image: "/images/hofamsco/facilities/computer-lab.jpg",
+    category: "Facility"
+  },
+  {
+    title: "Annual Sports Day Success",
+    excerpt: "Celebrating fitness, teamwork, and school spirit in our annual sports festival",
+    date: "2024-06-20",
+    image: "/images/hofamsco/activities/sports-day.jpg",
+    category: "Event"
+  }
+];
+
+const quickLinks = [
+  {
+    title: "Book a Principal's Tour",
+    description: "Schedule a personal tour with our principal to explore our facilities",
+    link: "/enrollment/tours",
+    icon: "calendar-check",
+    color: "hofamsco-blue"
+  },
+  {
+    title: "Enrollment Process",
+    description: "Learn about our simple enrollment process and requirements",
+    link: "/enrollment/process",
+    icon: "user-plus",
+    color: "hofamsco-red"
+  },
+  {
+    title: "School Fees",
+    description: "View our transparent fee structure and payment options",
+    link: "/enrollment/fees",
+    icon: "credit-card",
+    color: "hofamsco-blue"
+  },
+  {
+    title: "Contact Us",
+    description: "Get in touch with our school administration",
+    link: "/connect/contact",
+    icon: "phone",
+    color: "hofamsco-red"
+  }
+];
+
+const testimonials = [
+  {
+    name: "Mrs. Akosua Mensah",
+    role: "Parent of Primary 4 Student",
+    content: "HOFAMSCO has provided my daughter with excellent education and character development. The teachers are caring and dedicated.",
+    rating: 5
+  },
+  {
+    name: "Mr. Kwame Asante",
+    role: "Parent of JHS 2 Student",
+    content: "The school's focus on both academics and moral values makes it stand out. My son has grown tremendously here.",
+    rating: 5
+  },
+  {
+    name: "Ms. Abena Osei",
+    role: "Former Student, Now University",
+    content: "HOFAMSCO prepared me well for secondary school and beyond. The foundation I received here was invaluable.",
+    rating: 5
+  }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>HOFAMSCO</title>
-	</head>
-	<body>
-		<h1>HOFAMSCO</h1>
-	</body>
-</html>
+<Layout
+  title="HOFAMSCO School - Quality Education in Koforidua, Ghana"
+  description="Premier private school in Koforidua offering quality education from Kindergarten to Junior High School. Excellence in academics, character development, and holistic learning."
+  keywords="HOFAMSCO School, private school Koforidua, kindergarten Eastern Region, JHS school Ghana, quality education"
+>
+  <!-- Smooth Scrolling Component -->
+  <SmoothScrolling client:load />
+
+  <!-- Hero Section -->
+  <Hero
+    title="Welcome to HOFAMSCO School"
+    subtitle="Excellence in Education, Character, and Service"
+    description="Nurturing young minds in Koforidua with quality education from Kindergarten to Junior High School. Where every child matters and every dream is possible."
+    primaryButton={{
+      text: "Book a Tour",
+      link: "/enrollment/tours",
+      style: "primary"
+    }}
+    secondaryButton={{
+      text: "Learn More",
+      link: "/about",
+      style: "secondary"
+    }}
+    backgroundImage="/images/hofamsco/hero/hero-main.jpg"
+    overlayOpacity={0.4}
+  />
+
+  <!-- School Statistics -->
+  <Section className="bg-hofamsco-background-secondary py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="space-y-2">
+          <div class="text-4xl font-bold text-hofamsco-blue-700">{schoolStats.students}</div>
+          <div class="text-hofamsco-gray-600 font-medium">Happy Students</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-4xl font-bold text-hofamsco-red-600">{schoolStats.staff}</div>
+          <div class="text-hofamsco-gray-600 font-medium">Dedicated Staff</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-4xl font-bold text-hofamsco-blue-700">{schoolStats.yearsEstablished}</div>
+          <div class="text-hofamsco-gray-600 font-medium">Years of Excellence</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-4xl font-bold text-hofamsco-red-600">{schoolStats.successRate}</div>
+          <div class="text-hofamsco-gray-600 font-medium">Success Rate</div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Principal's Welcome -->
+  <Section className="py-20">
+    <div class="container mx-auto px-4">
+      <PrincipalIntro client:load />
+    </div>
+  </Section>
+
+  <!-- Quick Action Links -->
+  <Section className="bg-hofamsco-background-accent py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-hofamsco-gray-900 mb-4">
+          Ready to Join Our School Family?
+        </h2>
+        <p class="text-lg text-hofamsco-gray-600 max-w-2xl mx-auto">
+          Take the first step towards your child's bright future with these quick actions
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {quickLinks.map((link) => (
+          <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div class="p-6 text-center space-y-4">
+              <div class={`w-16 h-16 mx-auto rounded-full bg-${link.color}-100 flex items-center justify-center group-hover:bg-${link.color}-200 transition-colors`}>
+                <svg class={`w-8 h-8 text-${link.color}-600`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <!-- Icon will be handled by Lucide React in production -->
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-semibold text-hofamsco-gray-900 group-hover:text-hofamsco-blue-700 transition-colors">
+                {link.title}
+              </h3>
+              <p class="text-hofamsco-gray-600 text-sm leading-relaxed">
+                {link.description}
+              </p>
+              <Button
+                href={link.link}
+                variant="outline"
+                size="sm"
+                className="w-full group-hover:bg-hofamsco-blue-600 group-hover:text-white group-hover:border-hofamsco-blue-600"
+              >
+                Learn More
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Featured Facilities -->
+  <Section className="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-hofamsco-gray-900 mb-4">
+          World-Class Facilities
+        </h2>
+        <p class="text-lg text-hofamsco-gray-600 max-w-2xl mx-auto">
+          Our modern facilities provide the perfect environment for learning, growth, and development
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {featuredFacilities.map((facility, index) => (
+          <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300">
+            <div class="relative h-48 md:h-56 overflow-hidden">
+              <img
+                src={facility.image}
+                alt={facility.name}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading={index < 2 ? "eager" : "lazy"}
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold text-hofamsco-gray-900 mb-2 group-hover:text-hofamsco-blue-700 transition-colors">
+                {facility.name}
+              </h3>
+              <p class="text-hofamsco-gray-600 mb-4 leading-relaxed">
+                {facility.description}
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {facility.features.map((feature) => (
+                  <span class="inline-block bg-hofamsco-blue-50 text-hofamsco-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <Button
+          href="/about/facilities"
+          variant="primary"
+          size="lg"
+          className="bg-hofamsco-blue-600 hover:bg-hofamsco-blue-700"
+        >
+          Explore All Facilities
+        </Button>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Academic Programs Overview -->
+  <Section className="bg-hofamsco-background-secondary py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-hofamsco-gray-900 mb-4">
+          Academic Excellence Across All Levels
+        </h2>
+        <p class="text-lg text-hofamsco-gray-600 max-w-2xl mx-auto">
+          From Kindergarten to Junior High School, we provide comprehensive education tailored to each developmental stage
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Kindergarten -->
+        <Card className="text-center group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="p-8">
+            <div class="w-20 h-20 mx-auto mb-6 bg-hofamsco-red-100 rounded-full flex items-center justify-center group-hover:bg-hofamsco-red-200 transition-colors">
+              <svg class="w-10 h-10 text-hofamsco-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-hofamsco-gray-900 mb-4">Kindergarten</h3>
+            <p class="text-hofamsco-gray-600 mb-6">Ages 3-5 years</p>
+            <p class="text-hofamsco-gray-600 leading-relaxed mb-6">
+              Play-based learning approach focusing on foundational skills, creativity, and social development in a nurturing environment.
+            </p>
+            <Button
+              href="/learning/kindergarten"
+              variant="outline"
+              className="group-hover:bg-hofamsco-red-600 group-hover:text-white group-hover:border-hofamsco-red-600"
+            >
+              Learn More
+            </Button>
+          </div>
+        </Card>
+
+        <!-- Primary School -->
+        <Card className="text-center group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="p-8">
+            <div class="w-20 h-20 mx-auto mb-6 bg-hofamsco-blue-100 rounded-full flex items-center justify-center group-hover:bg-hofamsco-blue-200 transition-colors">
+              <svg class="w-10 h-10 text-hofamsco-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-hofamsco-gray-900 mb-4">Primary School</h3>
+            <p class="text-hofamsco-gray-600 mb-6">Classes 1-6</p>
+            <p class="text-hofamsco-gray-600 leading-relaxed mb-6">
+              Comprehensive curriculum building strong academic foundations in literacy, numeracy, and critical thinking skills.
+            </p>
+            <Button
+              href="/learning/primary"
+              variant="outline"
+              className="group-hover:bg-hofamsco-blue-600 group-hover:text-white group-hover:border-hofamsco-blue-600"
+            >
+              Learn More
+            </Button>
+          </div>
+        </Card>
+
+        <!-- Junior High School -->
+        <Card className="text-center group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="p-8">
+            <div class="w-20 h-20 mx-auto mb-6 bg-hofamsco-red-100 rounded-full flex items-center justify-center group-hover:bg-hofamsco-red-200 transition-colors">
+              <svg class="w-10 h-10 text-hofamsco-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-hofamsco-gray-900 mb-4">Junior High</h3>
+            <p class="text-hofamsco-gray-600 mb-6">JHS 1-3</p>
+            <p class="text-hofamsco-gray-600 leading-relaxed mb-6">
+              Advanced curriculum preparing students for BECE and senior high school with specialized subjects and career guidance.
+            </p>
+            <Button
+              href="/learning/jhs"
+              variant="outline"
+              className="group-hover:bg-hofamsco-red-600 group-hover:text-white group-hover:border-hofamsco-red-600"
+            >
+              Learn More
+            </Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Recent News & Updates -->
+  <Section className="py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-hofamsco-gray-900 mb-4">
+          Latest News & Updates
+        </h2>
+        <p class="text-lg text-hofamsco-gray-600 max-w-2xl mx-auto">
+          Stay informed about school activities, achievements, and important announcements
+        </p>
+      </div>
+
+      <NewsCarousel newsItems={recentNews} client:load />
+
+      <div class="text-center mt-12">
+        <Button
+          href="/connect/news"
+          variant="outline"
+          size="lg"
+        >
+          View All News
+        </Button>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Parent Testimonials -->
+  <Section className="bg-hofamsco-background-accent py-20">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-hofamsco-gray-900 mb-4">
+          What Parents Say About Us
+        </h2>
+        <p class="text-lg text-hofamsco-gray-600 max-w-2xl mx-auto">
+          Hear from our school community about their experiences at HOFAMSCO
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {testimonials.map((testimonial, index) => (
+          <Card className="p-6 text-center">
+            <div class="mb-4">
+              <div class="flex justify-center space-x-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg
+                    key={i}
+                    class={`w-5 h-5 ${i < testimonial.rating ? 'text-yellow-400' : 'text-hofamsco-gray-300'}`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+              </div>
+              <blockquote class="text-hofamsco-gray-600 italic leading-relaxed mb-4">
+                "{testimonial.content}"
+              </blockquote>
+            </div>
+            <div>
+              <div class="font-semibold text-hofamsco-gray-900">{testimonial.name}</div>
+              <div class="text-sm text-hofamsco-gray-500">{testimonial.role}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Call to Action -->
+  <Section className="bg-gradient-to-r from-hofamsco-blue-600 to-hofamsco-red-600 py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        Ready to Join the HOFAMSCO Family?
+      </h2>
+      <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+        Give your child the gift of quality education in a nurturing, Christian environment.
+        Schedule a tour today and see why parents choose HOFAMSCO.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button
+          href="/enrollment/tours"
+          variant="secondary"
+          size="lg"
+          className="bg-white text-hofamsco-blue-700 hover:bg-hofamsco-gray-100"
+        >
+          Book a School Tour
+        </Button>
+        <Button
+          href="/enrollment/process"
+          variant="outline"
+          size="lg"
+          className="border-white text-white hover:bg-white hover:text-hofamsco-blue-700"
+        >
+          Start Enrollment
+        </Button>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Contact Information -->
+  <Section className="py-16 bg-hofamsco-background-secondary">
+    <div class="container mx-auto px-4">
+      <ContactInfo />
+    </div>
+  </Section>
+
+  <!-- WhatsApp Float Button -->
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  /* Custom animations and hover effects */
+  .group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
+  }
+
+  .group:hover .group-hover\:-translate-y-1 {
+    transform: translateY(-0.25rem);
+  }
+
+  /* Ensure smooth transitions */
+  * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+</style>
