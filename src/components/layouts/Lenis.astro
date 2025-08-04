@@ -1,0 +1,294 @@
+---
+// src/components/layout/SmoothScrolling.astro
+// Lenis smooth scrolling integration for HOFAMSCO website
+---
+
+<script>
+    import Lenis from 'lenis';
+
+    class SmoothScrollManager {
+      private lenis: Lenis | null = null;
+      private rafId: number | null = null;
+
+      constructor() {
+        this.init();
+        this.setupEventListeners();
+      }
+
+      private init(): void {
+        // Initialize Lenis smooth scrolling
+        this.lenis = new Lenis({
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          direction: 'vertical',
+          gestureDirection: 'vertical',
+          smooth: true,
+          mouseMultiplier: 1,
+          smoothTouch: false, // Disable on mobile for better performance
+          touchMultiplier: 2,
+          infinite: false,
+          normalizeWheel: true,
+          wheelMultiplier: 1,
+        });
+
+        this.startAnimationLoop();
+      }
+
+      private startAnimationLoop(): void {
+        const raf = (time: number) => {
+          if (this.lenis) {
+            this.lenis.raf(time);
+            this.rafId = requestAnimationFrame(raf);
+          }
+        };
+        this.rafId = requestAnimationFrame(raf);
+      }
+
+      private stopAnimationLoop(): void {
+        if (this.rafId) {
+          cancelAnimationFrame(this.rafId);
+          this.rafId = null;
+        }
+      }
+
+      private setupEventListeners(): void {
+        // Handle page load animations
+        document.addEventListener('DOMContentLoaded', this.handlePageLoad.bind(this));
+
+        // Handle smooth anchor scrolling
+        document.addEventListener('click', this.handleAnchorClick.bind(this));
+
+        // Handle Astro view transitions
+        document.addEventListener('astro:before-preparation', this.handleBeforeTransition.bind(this));
+        document.addEventListener('astro:after-swap', this.handleAfterTransition.bind(this));
+
+        // Handle resize events
+        window.addEventListener('resize', this.handleResize.bind(this));
+
+        // Handle scroll events for custom functionality
+        if (this.lenis) {
+          this.lenis.on('scroll', this.handleScroll.bind(this));
+        }
+      }
+
+      private handlePageLoad(): void {
+        // Add loading animation classes
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+          mainContent.classList.remove('loading');
+          mainContent.classList.add('loaded');
+        }
+
+        // Ensure lenis updates after DOM changes
+        setTimeout(() => {
+          if (this.lenis) {
+            this.lenis.resize();
+          }
+        }, 100);
+      }
+
+      private handleAnchorClick(e: Event): void {
+        const target = e.target as HTMLElement;
+        if (!target || !target.closest) return;
+
+        const anchor = target.closest('a[href^="#"]') as HTMLAnchorElement;
+        if (!anchor) return;
+
+        e.preventDefault();
+
+        const href = anchor.getAttribute('href');
+        if (!href) return;
+
+        const id = href.substring(1);
+        if (!id) return;
+
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        // Calculate offset based on header height
+        const header = document.getElementById('header');
+        const offset = header ? -(header.offsetHeight + 20) : -80;
+
+        if (this.lenis) {
+          this.lenis.scrollTo(element, {
+            offset,
+            duration: 1.5,
+            easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        }
+      }
+
+      private handleBeforeTransition(): void {
+        // Clean up before page transition
+        this.destroy();
+      }
+
+      private handleAfterTransition(): void {
+        // Reinitialize after page transition
+        setTimeout(() => {
+          this.init();
+          this.handlePageLoad();
+        }, 50);
+      }
+
+      private handleResize(): void {
+        // Update lenis on resize
+        if (this.lenis) {
+          this.lenis.resize();
+        }
+      }
+
+      private handleScroll(e: any): void {
+        // Custom scroll handling can be added here
+        // For example, updating scroll progress, parallax effects, etc.
+        const scrollProgress = e.progress;
+
+        // Update CSS custom property for scroll-based animations
+        document.documentElement.style.setProperty('--scroll-progress', scrollProgress.toString());
+
+        // Header background on scroll
+        const header = document.getElementById('header');
+        if (header) {
+          if (e.scroll > 50) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        }
+      }
+
+      public scrollTo(target: string | HTMLElement, options?: any): void {
+        if (this.lenis) {
+          this.lenis.scrollTo(target, options);
+        }
+      }
+
+      public scrollToTop(): void {
+        if (this.lenis) {
+          this.lenis.scrollTo(0, { duration: 1.5 });
+        }
+      }
+
+      public destroy(): void {
+        if (this.lenis) {
+          this.lenis.destroy();
+          this.lenis = null;
+        }
+        this.stopAnimationLoop();
+      }
+
+      public start(): void {
+        if (this.lenis) {
+          this.lenis.start();
+        }
+      }
+
+      public stop(): void {
+        if (this.lenis) {
+          this.lenis.stop();
+        }
+      }
+    }
+
+    // Initialize smooth scrolling
+    let smoothScrollManager: SmoothScrollManager | null = null;
+
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        smoothScrollManager = new SmoothScrollManager();
+      });
+    } else {
+      smoothScrollManager = new SmoothScrollManager();
+    }
+
+    // Expose to global scope for external access
+    declare global {
+      interface Window {
+        smoothScroll: {
+          scrollTo: (target: string | HTMLElement, options?: any) => void;
+          scrollToTop: () => void;
+          start: () => void;
+          stop: () => void;
+        };
+      }
+    }
+
+    window.smoothScroll = {
+      scrollTo: (target: string | HTMLElement, options?: any) => {
+        smoothScrollManager?.scrollTo(target, options);
+      },
+      scrollToTop: () => {
+        smoothScrollManager?.scrollToTop();
+      },
+      start: () => {
+        smoothScrollManager?.start();
+      },
+      stop: () => {
+        smoothScrollManager?.stop();
+      }
+    };
+    </script>
+
+    <style>
+      /* CSS for smooth scrolling enhancements */
+      :global(html) {
+        scroll-behavior: auto !important;
+      }
+
+      /* Disable smooth scrolling for users who prefer reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        :global(*) {
+          scroll-behavior: auto !important;
+        }
+      }
+
+      /* Custom scrollbar styling */
+      :global(::-webkit-scrollbar) {
+        width: 8px;
+      }
+
+      :global(::-webkit-scrollbar-track) {
+        background: #f1f5f9;
+      }
+
+      :global(::-webkit-scrollbar-thumb) {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+
+      :global(::-webkit-scrollbar-thumb:hover) {
+        background: #94a3b8;
+      }
+
+      /* Header scroll state */
+      :global(#header.scrolled) {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      }
+
+      /* Loading and animation states */
+      :global(.loading) {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      :global(.loaded) {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      /* Scroll-based animations using CSS custom properties */
+      :global([data-scroll]) {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      :global([data-scroll].in-view) {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>

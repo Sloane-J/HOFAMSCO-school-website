@@ -16,7 +16,7 @@ npm install clsx tailwind-merge class-variance-authority
 npm install -D @types/node @astrojs/ts-plugin
 
 # Install image optimization (optional but recommended)
-npx astro add image
+npx astro add sharp
 
 # Install sitemap generation for SEO
 npx astro add sitemap

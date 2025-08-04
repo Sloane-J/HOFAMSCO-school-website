@@ -1,0 +1,368 @@
+---
+// src/components/layout/Layout.astro
+// Base layout component for HOFAMSCO School website
+import { ViewTransitions } from 'astro:transitions';
+import Lenis from './Lenis.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  showBackToTop?: boolean;
+}
+
+const {
+  title,
+  description = "HOFAMSCO School - Quality Education from Kindergarten to Junior High School in Ghana. Nurturing young minds with excellence in academics, character development, and holistic growth.",
+  image = "/images/hofamsco/logo/hofamsco-og-image.jpg",
+  canonical,
+  noindex = false,
+  type = 'website',
+  showBackToTop = true
+} = Astro.props;
+
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.url);
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="HOFAMSCO School, Ghana education, kindergarten, primary school, JHS, quality education, Koforidua schools, private school Ghana, Eastern Region education" />
+    <meta name="author" content="HOFAMSCO School" />
+
+    <!-- Robots -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="HOFAMSCO School" />
+    <meta property="og:locale" content="en_GH" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+
+    <!-- Additional Meta Tags for Schools -->
+    <meta name="geo.region" content="GH-EP" />
+    <meta name="geo.placename" content="Koforidua, Eastern Region, Ghana" />
+    <meta name="theme-color" content="#1e40af" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <!-- Google Fonts - Optimized for Ghana's internet -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lenis Smooth Scrolling CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.42/lenis.min.js" integrity="sha512-lMEXGG5aaOO8u2dqaI3V2l8V8ELBHZ0J+LkYSk7A6TbMZXNRs7+4T3Zz7bA8w6r3d9JD2RvEy7zP0D+h3d3HnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Structured Data for School -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "HOFAMSCO School",
+        "alternateName": "Hope for All Minds School",
+        "description": "Quality Education from Kindergarten to Junior High School in Ghana. Nurturing young minds with excellence in academics, character development, and holistic growth.",
+        "url": "https://hofamsco.edu.gh",
+        "logo": "https://hofamsco.edu.gh/images/hofamsco/logo/hofamsco-logo.png",
+        "image": "https://hofamsco.edu.gh/images/hofamsco/hero/hero-campus.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "GH",
+          "addressRegion": "Eastern Region",
+          "addressLocality": "Koforidua"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+233-XXX-XXX-XXX",
+          "contactType": "customer service",
+          "availableLanguage": ["English", "Twi"]
+        },
+        "foundingDate": "2010",
+        "numberOfStudents": "300+",
+        "educationalLevel": ["Kindergarten", "Primary", "Junior High School"],
+        "sameAs": [
+          "https://facebook.com/hofamscoschool",
+          "https://instagram.com/hofamscoschool"
+        ],
+        "areaServed": {
+          "@type": "Place",
+          "name": "Eastern Region, Ghana"
+        }
+      }
+    </script>
+
+    <!-- View Transitions -->
+    <ViewTransitions />
+
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+      /* Critical styles for initial page load */
+      html {
+        font-family: 'Inter', system-ui, sans-serif;
+        scroll-behavior: auto; /* Disabled in favor of Lenis */
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #ffffff;
+        color: #1f2937;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Loading states */
+      .loading {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .loaded {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Header transitions */
+      #header {
+        transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Focus styles for accessibility */
+      :focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      /* Skip link styles */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: #3b82f6;
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 1000;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 6px;
+      }
+
+      /* Back to top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+      }
+
+      .back-to-top:active {
+        transform: translateY(0);
+      }
+
+      /* Reduced motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      /* Custom scrollbar for webkit browsers */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased bg-white text-gray-900">
+    <!-- Skip to main content for accessibility -->
+    <a
+      href="#main-content"
+      class="skip-link sr-only focus:not-sr-only"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Header -->
+    <header id="header" class="relative z-40">
+      <slot name="header" />
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="relative z-10 loading">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="relative z-30">
+      <slot name="footer" />
+    </footer>
+
+    <!-- Back to Top Button -->
+    {showBackToTop && (
+      <button
+        id="back-to-top"
+        class="back-to-top"
+        aria-label="Back to top"
+        title="Back to top"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m18 15-6-6-6 6"/>
+        </svg>
+      </button>
+    )}
+
+    <!-- Smooth Scrolling Integration -->
+    <Lenis />
+
+    <!-- Back to Top Functionality -->
+    <script>
+      // Back to top button functionality
+      const backToTopButton = document.getElementById('back-to-top');
+
+      if (backToTopButton) {
+        // Show/hide button based on scroll position
+        const toggleBackToTop = () => {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+          } else {
+            backToTopButton.classList.remove('visible');
+          }
+        };
+
+        // Listen for scroll events
+        window.addEventListener('scroll', toggleBackToTop);
+
+        // Handle click
+        backToTopButton.addEventListener('click', () => {
+          if (window.smoothScroll) {
+            window.smoothScroll.scrollToTop();
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+
+        // Initial check
+        toggleBackToTop();
+      }
+
+      // Handle view transitions
+      document.addEventListener('astro:after-swap', () => {
+        // Re-initialize back to top functionality after page transitions
+        const newBackToTopButton = document.getElementById('back-to-top');
+        if (newBackToTopButton) {
+          newBackToTopButton.addEventListener('click', () => {
+            if (window.smoothScroll) {
+              window.smoothScroll.scrollToTop();
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          });
+        }
+      });
+    </script>
+
+    <!-- Analytics placeholder -->
+    <!-- Google Analytics or other analytics scripts can be added here -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    -->
+  </body>
+</html>
