@@ -4,6 +4,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import Lenis from './Lenis.astro';
 import '../../styles/global.css';
+import Header from './Header.astro'
 
 export interface Props {
   title: string;
@@ -266,9 +267,9 @@ const socialImageURL = new URL(image, Astro.url);
     </a>
 
     <!-- Header -->
-    <header id="header" class="relative z-40">
+    <Header id="header" class="relative z-40">
       <slot name="header" />
-    </header>
+    </Header>
 
     <!-- Main Content -->
     <main id="main-content" class="relative z-10 loading">
