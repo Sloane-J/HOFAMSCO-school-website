@@ -1,0 +1,267 @@
+---
+// Hero component for HOFAMSCO School
+// Features: Carousel background, overlay content, responsive design
+---
+
+<section id="hero" class="relative h-screen min-h-[600px] overflow-hidden">
+    <!-- Background Image Carousel -->
+    <div class="hero-carousel absolute inset-0 z-0">
+      <!-- Hero Image 1 - Main Campus -->
+      <div class="hero-slide active absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+           style="background-image: url('/images/hofamsco/hero/hero-main.jpg')">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+      </div>
+
+      <!-- Hero Image 2 - Students in Classroom -->
+      <div class="hero-slide absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-0"
+           style="background-image: url('/images/hofamsco/hero/hero-students.jpg')">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+      </div>
+
+      <!-- Hero Image 3 - Campus Overview -->
+      <div class="hero-slide absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 opacity-0"
+           style="background-image: url('/images/hofamsco/hero/hero-campus.jpg')">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 h-full flex items-center">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl">
+          <!-- School Emblem and Brand -->
+          <div class="flex items-center mb-6 animate-fade-in-up">
+            <img
+              src="/images/hofamsco/logo/logo-white.png"
+              alt="HOFAMSCO School Logo"
+              class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mr-4 drop-shadow-lg"
+            />
+            <div>
+              <h1 class="text-white text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
+                HOFAMSCO SCHOOL
+              </h1>
+              <p class="text-hofamsco-blue-100 text-sm sm:text-base lg:text-lg font-medium mt-1">
+                Excellence in Education Since [Year]
+              </p>
+            </div>
+          </div>
+
+          <!-- Main Heading -->
+          <div class="mb-8 animate-fade-in-up animation-delay-200">
+            <h2 class="text-white text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4">
+              Nurturing
+              <span class="text-hofamsco-blue-300 block">Tomorrow's</span>
+              <span class="text-hofamsco-red-400 block">Leaders</span>
+            </h2>
+            <p class="text-hofamsco-gray-100 text-lg sm:text-xl lg:text-2xl max-w-2xl leading-relaxed">
+              Providing quality education from Kindergarten to Junior High School in the heart of New Tafo Akim, Eastern Region.
+            </p>
+          </div>
+
+          <!-- Key Features -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 animate-fade-in-up animation-delay-400">
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+              <div class="text-hofamsco-blue-300 text-2xl font-bold">500+</div>
+              <div class="text-white text-sm">Happy Students</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+              <div class="text-hofamsco-red-300 text-2xl font-bold">25+</div>
+              <div class="text-white text-sm">Qualified Teachers</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+              <div class="text-hofamsco-blue-300 text-2xl font-bold">15+</div>
+              <div class="text-white text-sm">Years Excellence</div>
+            </div>
+          </div>
+
+          <!-- Call to Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-600">
+            <!-- Primary CTA - Enroll Now -->
+            <a
+              href="/enrollment"
+              class="group inline-flex items-center justify-center px-8 py-4 bg-hofamsco-red-500 hover:bg-hofamsco-red-600 text-white font-semibold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-hofamsco-red-500/50"
+            >
+              <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+              Enroll Your Child
+            </a>
+
+            <!-- Secondary CTA - Contact Us -->
+            <a
+              href="/connect/contact"
+              class="group inline-flex items-center justify-center px-8 py-4 bg-transparent hover:bg-white/10 text-white font-semibold text-lg rounded-lg border-2 border-white/30 hover:border-white/60 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-white/20"
+            >
+              <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+              Contact Us
+            </a>
+
+            <!-- WhatsApp Quick Contact -->
+            <a
+              href="https://wa.me/233XXXXXXXXX"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group inline-flex items-center justify-center px-6 py-4 bg-green-500 hover:bg-green-600 text-white font-semibold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500/50 sm:w-auto"
+            >
+              <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+              </svg>
+              WhatsApp
+            </a>
+          </div>
+
+          <!-- School Motto -->
+          <div class="mt-8 animate-fade-in-up animation-delay-800">
+            <blockquote class="text-hofamsco-blue-200 text-lg sm:text-xl font-medium italic border-l-4 border-hofamsco-blue-400 pl-4">
+              "Shaping minds, building futures, creating excellence in education."
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel Navigation Dots -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+      <div class="flex space-x-3">
+        <button class="carousel-dot active w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-all duration-300" data-slide="0"></button>
+        <button class="carousel-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-slide="1"></button>
+        <button class="carousel-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300" data-slide="2"></button>
+      </div>
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-8 right-8 z-20 animate-bounce">
+      <div class="flex flex-col items-center text-white/70 hover:text-white transition-colors cursor-pointer">
+        <span class="text-sm mb-2 hidden sm:block">Scroll Down</span>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Custom animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .animation-delay-200 {
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+
+    .animation-delay-400 {
+      animation-delay: 0.4s;
+      opacity: 0;
+    }
+
+    .animation-delay-600 {
+      animation-delay: 0.6s;
+      opacity: 0;
+    }
+
+    .animation-delay-800 {
+      animation-delay: 0.8s;
+      opacity: 0;
+    }
+
+    /* Carousel dots */
+    .carousel-dot.active {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: scale(1.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .hero-slide {
+        background-position: center right;
+      }
+
+      .hero-slide::before {
+        background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
+      }
+    }
+  </style>
+
+  <script>
+    // Hero Carousel Auto-play Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.carousel-dot');
+      let currentSlide = 0;
+      const slideInterval = 5000; // 5 seconds
+
+      function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => {
+          slide.classList.remove('active');
+          slide.style.opacity = '0';
+        });
+
+        // Remove active class from all dots
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Show current slide
+        slides[index].classList.add('active');
+        slides[index].style.opacity = '1';
+
+        // Activate current dot
+        dots[index].classList.add('active');
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }
+
+      // Auto-play carousel
+      let autoPlay = setInterval(nextSlide, slideInterval);
+
+      // Manual navigation
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentSlide = index;
+          showSlide(currentSlide);
+
+          // Reset auto-play
+          clearInterval(autoPlay);
+          autoPlay = setInterval(nextSlide, slideInterval);
+        });
+      });
+
+      // Pause on hover
+      const heroSection = document.getElementById('hero');
+      heroSection.addEventListener('mouseenter', () => {
+        clearInterval(autoPlay);
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        autoPlay = setInterval(nextSlide, slideInterval);
+      });
+
+      // Smooth scroll for scroll indicator
+      const scrollIndicator = document.querySelector('.animate-bounce');
+      if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+          window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+          });
+        });
+      }
+    });
+  </script>
