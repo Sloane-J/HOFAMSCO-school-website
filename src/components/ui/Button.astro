@@ -256,27 +256,21 @@ const renderIcon = (iconName: string, position: 'left' | 'right') => {
   const path = iconPaths[iconName as keyof typeof iconPaths];
 
   if (iconName === 'whatsapp') {
-    return (
-      <svg class={iconClass} fill="currentColor" viewBox="0 0 24 24">
-        <path d={path}></path>
-      </svg>
-    );
-  }
+  return `<svg class="${iconClass}" fill="currentColor" viewBox="0 0 24 24">
+    <path d="${path}"></path>
+  </svg>`;
+}
 
-  if (iconName === 'loading') {
-    return (
-      <svg class={`${iconClass} animate-spin`} fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d={path}></path>
-      </svg>
-    );
-  }
+if (iconName === 'loading') {
+  return `<svg class="${iconClass} animate-spin" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="${path}"></path>
+  </svg>`;
+}
 
-  return (
-    <svg class={iconClass} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={path}></path>
-    </svg>
-  );
+return `<svg class="${iconClass}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${path}"></path>
+</svg>`;
 };
 ---
 
